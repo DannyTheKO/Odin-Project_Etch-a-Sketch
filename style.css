@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background-color: darkslategrey;
+    background-color: lightblue;
     color: black;
 
     width: 100%;
@@ -12,6 +12,10 @@ body {
 
     margin: 0;
     padding: 0;
+}
+
+hr {
+    margin: 0;
 }
 
 .wrapper {
@@ -25,20 +29,45 @@ body {
     text-align: center;
 }
 
-.btn {
+.wrapper-btn {
     display: flex;
-    gap: 16px;
+    flex-direction: row;
 
-    width: auto;
+    gap: 16px;
     margin-bottom: 16px;
 
-    & > button {
-        width: 100px;
+    [class^="btn-"] {
+        display: flex;
+
+        background-color: darksalmon;
+        border: brown 0.5em inset;
+
+        width: auto;
+
         padding: 8px;
+
+        button {
+            padding: 8px 16px;
+        }
     }
+
+    .btn-config {
+        gap: 16px;
+    }
+
+    .btn-option {
+        gap: 8px;
+        align-items: center;
+    }
+
+
 }
 
-#etchASketch {
-    display: grid;
-}
 
+.wrapper-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+
+    border: brown 2em inset;
+}

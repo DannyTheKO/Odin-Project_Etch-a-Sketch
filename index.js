@@ -1,54 +1,94 @@
 const etchASketch = document.querySelector("#etchASketch");
 const btnReset = document.querySelector("#btnReset");
-const btnSize = document.querySelector("#btnSize");
+const totalSquareInput = document.querySelector("#totalSquareInput");
+const totalSquareOutput = document.querySelector("#totalSquareOutput");
 
-let totalGrid = 128; // default size (contain x and y axis);
-const containerSize = 600; // Size of the container
-let count = 1; // Debug
-renderSketch(totalGrid);
-function renderSketch(totalGrid) {
-    let gridSize = Math.ceil(Math.sqrt(totalGrid));
-    let divSize = containerSize / gridSize;
-    console.log(divSize)
+let totalSquares = 32;
+let sizeContainer = 600; // How big is the display is
+renderSketch(totalSquares);
 
-    etchASketch.style.display = "grid";
-    etchASketch.style.gridTemplateColumns = `repeat(${gridSize}, ${divSize}px)`;
-    etchASketch.style.gridTemplateRows = `repeat(${gridSize}, ${divSize}px)`;
-    etchASketch.style.width = `${containerSize}px`;
-    etchASketch.style.height = `${containerSize}px`;
+function renderSketch(totalSquare) {
+    if (totalSquare > 64) {
+        let c = confirm("Careful this will freeze the website!, do you wish to continue ?")
+        if (c === false) {
+            return;
+        }
+    }
 
-    etchASketch.innerHTML = "";
+    // Reset
+    etchASketch.innerHTML = '';
+    mouseOverOption();
 
-    for (let i = 0; i < totalGrid; i++) {
-        // Sketch square default style
-        const square = document.createElement("div");
-        square.style.backgroundColor = "darkblue";
-        square.style.boxSizing = "border-box"; // Ensure consistent sizing
-        square.style.width = `${divSize}px`;
-        square.style.height = `${divSize}px`;
+    totalSquareOutput.textContent = `${totalSquare} x ${totalSquare}`;
+    totalSquareOutput.style.textAlign = "center";
 
-        etchASketch.appendChild(square);
+    // Calculate grid dimensions
+    // let cols = Math.floor(Math.sqrt(totalSquare));
+    // let rows = Math.ceil(totalSquare / cols);
+
+    // Adjust square size to fit the container exactly
+    let sizeSquare = sizeContainer / totalSquare;
+
+    etchASketch.style.display = "flex";
+    etchASketch.style.flexWrap = "wrap";
+    etchASketch.style.width = `${sizeContainer}px`;
+    etchASketch.style.height = `${sizeContainer}px`;
+    etchASketch.style.backgroundColor = "black";
+
+    for (let i = 1; i <= totalSquare; i++) {
+        for (let j = 1; j <= totalSquare; j++) {
+            const square = document.createElement("div");
+
+            square.style.width = `${sizeSquare}px`;
+            square.style.height = `${sizeSquare}px`;
+            square.style.boxSizing = "border-box";
+            square.style.backgroundColor = "darkgreen";
+            square.style.outline = "0.1px solid gray";
+            square.style.opacity = "1";
+
+            etchASketch.appendChild(square);
+        }
     }
 }
 
-etchASketch.addEventListener('mouseover', (e) => {
-    if (e.target.id !== "etchASketch") {
+function mouseOverOption() {
+    let option = document.querySelector('.btn-option > input[name="color"]:checked')
+
+    if (option.value.toString().toLocaleLowerCase() === "gradient") {
+        etchASketch.removeEventListener("mouseover", mouseOutRainbow);
+        etchASketch.addEventListener("mouseover", mouseOverGradient);
+    } else {
+        etchASketch.removeEventListener("mouseover", mouseOverGradient);
+        etchASketch.addEventListener("mouseover", mouseOutRainbow);
 
     }
-})
+}
+
+function mouseOverGradient(e) {
+    if (e.target.id !== "etchASketch" && e.target.style.opacity > "0") {
+        e.target.style.opacity -= 0.3;
+    }
+}
+
+function mouseOutRainbow(e) {
+    if (e.target.id !== "etchASketch") {
+        e.target.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+    }
+}
 
 // Reset Button
 btnReset.addEventListener('click', (e) => {
-
+    renderSketch(totalSquareInput.value);
 })
 
-// Change Size
-btnSize.addEventListener('click', () => {
-    // Validation input, if not an integer, try again!
+totalSquareOutput.addEventListener('click', (e) => {
+    let square;
     do {
-        totalGrid = prompt("What size for the sketch?: ");
-    } while (isNaN(parseInt(totalGrid)));
-
-    renderSketch(totalGrid);
-});
-
+        square = prompt("Square number: ");
+        if (square === null) {
+            return; // Cancel
+        }
+    } while (isNaN(parseInt(square))) // Integer Validation
+    totalSquares = square;
+    renderSketch(totalSquares);
+})
