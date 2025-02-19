@@ -78,7 +78,7 @@ function mouseOutRainbow(e) {
 
 // Reset Button
 btnReset.addEventListener('click', (e) => {
-    renderSketch(totalSquareInput.value);
+    renderSketch(totalSquares);
 })
 
 totalSquareOutput.addEventListener('click', (e) => {
