@@ -89,6 +89,6 @@ totalSquareOutput.addEventListener('click', (e) => {
             return; // Cancel
         }
     } while (isNaN(parseInt(square))) // Integer Validation
-    totalSquares = square;
+    totalSquares = Math.round(square);
     renderSketch(totalSquares);
 })
