@@ -2,6 +2,7 @@ const etchASketch = document.querySelector("#etchASketch");
 
 const btnReset = document.querySelector("#btnReset");
 const btnToggleBorder = document.querySelector("#btnToggleBorder");
+const sketchBackground = document.querySelector("#sketchBackground");
 
 const totalSquaresInput = document.querySelector("#totalSquareInput");
 const totalSquareOutput = document.querySelector("#totalSquareOutput");
@@ -36,7 +37,6 @@ function renderSketch(totalSquare) {
     etchASketch.style.flexWrap = "wrap";
     etchASketch.style.width = `${sizeContainer}px`;
     etchASketch.style.height = `${sizeContainer}px`;
-    etchASketch.style.backgroundColor = "black";
     etchASketch.style.userSelect = "none";
 
     for (let i = 1; i <= totalSquare; i++) {
@@ -47,8 +47,9 @@ function renderSketch(totalSquare) {
             square.style.width = `${sizeSquare}px`;
             square.style.height = `${sizeSquare}px`;
             square.style.boxSizing = "border-box";
-            square.style.backgroundColor = "darkgreen";
             square.style.opacity = "1";
+
+            square.style.backgroundColor = `${sketchBackground.value}`;
 
             // Border
             if (btnToggleBorder.checked) {
@@ -105,8 +106,9 @@ function mouseOverRainbow(e) {
 }
 
 function mouseOverErase(e) {
+    let background = document.querySelector(`.config > #sketchBackground`)
     if (e.target.id !== "etchASketch" && e.buttons === 1) {
-        e.target.style.backgroundColor = `darkgreen`
+        e.target.style.backgroundColor = `${background.value}`
     }
 }
 
@@ -141,9 +143,20 @@ totalSquareOutput.addEventListener('click', (e) => {
     renderSketch(totalSquares);
 })
 
-btnToggleBorder.addEventListener('click', (e) => {
+btnToggleBorder.addEventListener('click', () => {
     let allSquares = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > #square");
     allSquares.forEach(square => {
         square.classList.toggle("showBorder");
     })
+})
+
+sketchBackground.oninput = () => {
+    let allSquare = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > #square")
+    allSquare.forEach(square => {
+        square.style.backgroundColor = `${sketchBackground.value}`;
+    })
+}
+
+sketchBackground.addEventListener('click', () => {
+
 })

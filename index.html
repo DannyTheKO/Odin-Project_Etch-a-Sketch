@@ -41,15 +41,20 @@
                     </div>
 
                     <div class="color">
-                            <input type="radio" id="selectedColour" name="color" value="selectedColour"
-                                   onclick="mouseOverOption()">
+                        <input type="radio" id="selectedColour" name="color" value="selectedColour"
+                               onclick="mouseOverOption()">
                         <label for="selectedColour">Selected Color</label>
-                            <input type="color" id="select" style="border: hidden" value="#ff0000">
+                        <input type="color" id="select" style="border: hidden" value="#ff0000">
                     </div>
                 </div>
 
                 <h3>Sketch Option</h3>
                 <div class="sketch-option">
+                    <div class="config">
+                        <label for="sketchBackground">Background Color</label>
+                        <input type="color" id="sketchBackground" name="sketchBackground"
+                               style="border: hidden" value="#006400">
+                    </div>
                     <div class="config">
                         <input type="checkbox" id="btnToggleBorder" name="btnToggleBorder">
                         <label for="btnToggleBorder">Toggle Border</label>
