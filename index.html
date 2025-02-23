@@ -23,15 +23,10 @@
                 <h3>Color Option</h3>
                 <div class="color-option">
                     <div class="color">
-                        <input type="radio" id="gradient" name="color" value="Gradient"
-                               onclick="mouseOverOption()">
-                        <label for="gradient">Gray</label>
-                    </div>
-
-                    <div class="color">
-                        <input type="radio" id="rainbow" name="color" value="Rainbow"
+                        <input type="radio" id="selectedColour" name="color" value="selectedColour"
                                onclick="mouseOverOption()" checked>
-                        <label for="rainbow">Rainbow</label>
+                        <label for="selectedColour">Selected Color</label>
+                        <input type="color" style="width: 100px" id="select" style="border: hidden" value="#ff0000">
                     </div>
 
                     <div class="color">
@@ -41,10 +36,15 @@
                     </div>
 
                     <div class="color">
-                        <input type="radio" id="selectedColour" name="color" value="selectedColour"
+                        <input type="radio" id="gradient" name="color" value="Gradient"
                                onclick="mouseOverOption()">
-                        <label for="selectedColour">Selected Color</label>
-                        <input type="color" id="select" style="border: hidden" value="#ff0000">
+                        <label for="gradient">Gray</label>
+                    </div>
+
+                    <div class="color">
+                        <input type="radio" id="rainbow" name="color" value="Rainbow"
+                               onclick="mouseOverOption()">
+                        <label for="rainbow">Rainbow</label>
                     </div>
                 </div>
 

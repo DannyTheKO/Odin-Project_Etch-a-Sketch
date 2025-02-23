@@ -37,6 +37,7 @@ function renderSketch(totalSquare) {
     etchASketch.style.flexWrap = "wrap";
     etchASketch.style.width = `${sizeContainer}px`;
     etchASketch.style.height = `${sizeContainer}px`;
+    etchASketch.style.backgroundColor = `${sketchBackground.value}`;
     etchASketch.style.userSelect = "none";
 
     for (let i = 1; i <= totalSquare; i++) {
@@ -49,7 +50,7 @@ function renderSketch(totalSquare) {
             square.style.boxSizing = "border-box";
             square.style.opacity = "1";
 
-            square.style.backgroundColor = `${sketchBackground.value}`;
+            square.style.backgroundColor = "transparent";
 
             // Border
             if (btnToggleBorder.checked) {
@@ -106,9 +107,8 @@ function mouseOverRainbow(e) {
 }
 
 function mouseOverErase(e) {
-    let background = document.querySelector(`.config > #sketchBackground`)
     if (e.target.id !== "etchASketch" && e.buttons === 1) {
-        e.target.style.backgroundColor = `${background.value}`
+        e.target.style.backgroundColor = "transparent"
     }
 }
 
@@ -151,12 +151,5 @@ btnToggleBorder.addEventListener('click', () => {
 })
 
 sketchBackground.oninput = () => {
-    let allSquare = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > #square")
-    allSquare.forEach(square => {
-        square.style.backgroundColor = `${sketchBackground.value}`;
-    })
+    etchASketch.style.backgroundColor = `${sketchBackground.value}`;
 }
-
-sketchBackground.addEventListener('click', () => {
-
-})
