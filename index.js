@@ -1,6 +1,9 @@
 const etchASketch = document.querySelector("#etchASketch");
+
 const btnReset = document.querySelector("#btnReset");
-const totalSquareInput = document.querySelector("#totalSquareInput");
+const btnToggleBorder = document.querySelector("#btnToggleBorder");
+
+const totalSquaresInput = document.querySelector("#totalSquareInput");
 const totalSquareOutput = document.querySelector("#totalSquareOutput");
 
 let totalSquares = 32;
@@ -34,16 +37,18 @@ function renderSketch(totalSquare) {
     etchASketch.style.width = `${sizeContainer}px`;
     etchASketch.style.height = `${sizeContainer}px`;
     etchASketch.style.backgroundColor = "black";
+    etchASketch.style.userSelect = "none";
 
     for (let i = 1; i <= totalSquare; i++) {
         for (let j = 1; j <= totalSquare; j++) {
             const square = document.createElement("div");
+            square.id = "square";
 
             square.style.width = `${sizeSquare}px`;
             square.style.height = `${sizeSquare}px`;
             square.style.boxSizing = "border-box";
             square.style.backgroundColor = "darkgreen";
-            square.style.outline = "0.1px solid gray";
+            // square.style.outline = "0.1px solid gray";
             square.style.opacity = "1";
 
             etchASketch.appendChild(square);
@@ -51,28 +56,60 @@ function renderSketch(totalSquare) {
     }
 }
 
+// Mouse Over Option (this is a fucking mess)
 function mouseOverOption() {
-    let option = document.querySelector('.btn-option > input[name="color"]:checked')
+    let option = document.querySelector('.btn-option > div > .color > input[name="color"]:checked')
 
     if (option.value.toString().toLocaleLowerCase() === "gradient") {
-        etchASketch.removeEventListener("mouseover", mouseOutRainbow);
+        etchASketch.removeEventListener("mouseover", mouseOverRainbow);
+        etchASketch.removeEventListener("mouseover", mouseOverErase);
+        etchASketch.removeEventListener("mouseover", mouseOverSelectedColour);
+
         etchASketch.addEventListener("mouseover", mouseOverGradient);
+    } else if (option.value.toString().toLocaleLowerCase() === "rainbow") {
+        etchASketch.removeEventListener("mouseover", mouseOverGradient);
+        etchASketch.removeEventListener("mouseover", mouseOverErase);
+        etchASketch.removeEventListener("mouseover", mouseOverSelectedColour);
+
+        etchASketch.addEventListener("mouseover", mouseOverRainbow);
+    } else if (option.value.toString().toLocaleLowerCase() === "eraser") {
+        etchASketch.removeEventListener("mouseover", mouseOverGradient);
+        etchASketch.removeEventListener("mouseover", mouseOverRainbow);
+        etchASketch.removeEventListener("mouseover", mouseOverSelectedColour);
+
+        etchASketch.addEventListener("mouseover", mouseOverErase)
     } else {
         etchASketch.removeEventListener("mouseover", mouseOverGradient);
-        etchASketch.addEventListener("mouseover", mouseOutRainbow);
+        etchASketch.removeEventListener("mouseover", mouseOverRainbow);
+        etchASketch.removeEventListener("mouseover", mouseOverErase);
+
+        etchASketch.addEventListener("mouseover", mouseOverSelectedColour)
 
     }
 }
 
 function mouseOverGradient(e) {
-    if (e.target.id !== "etchASketch" && e.target.style.opacity > "0") {
-        e.target.style.opacity -= 0.3;
+    if (e.target.id !== "etchASketch" && e.buttons === 1) {
+            e.target.style.backgroundColor = "gray"
     }
 }
 
-function mouseOutRainbow(e) {
-    if (e.target.id !== "etchASketch") {
-        e.target.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+function mouseOverRainbow(e) {
+    if (e.target.id !== "etchASketch" && e.buttons === 1) {
+        e.target.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    }
+}
+
+function mouseOverErase(e) {
+    if (e.target.id !== "etchASketch" && e.buttons === 1) {
+        e.target.style.backgroundColor = `darkgreen`
+    }
+}
+
+function mouseOverSelectedColour(e) {
+    let select = document.querySelector(`.color > #select`)
+    if (e.target.id !== "etchASketch" && e.buttons === 1) {
+        e.target.style.backgroundColor = `${select.value}`;
     }
 }
 
@@ -81,6 +118,13 @@ btnReset.addEventListener('click', (e) => {
     renderSketch(totalSquares);
 })
 
+// Input Square
+totalSquaresInput.oninput = () => {
+    renderSketch(totalSquaresInput.value);
+    totalSquares = totalSquaresInput.value;
+}
+
+// Output Square
 totalSquareOutput.addEventListener('click', (e) => {
     let square;
     do {
@@ -91,4 +135,11 @@ totalSquareOutput.addEventListener('click', (e) => {
     } while (isNaN(parseInt(square))) // Integer Validation
     totalSquares = Math.round(square);
     renderSketch(totalSquares);
+})
+
+btnToggleBorder.addEventListener('click', (e) => {
+    let allSquares = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > *");
+    allSquares.forEach(square => {
+        square.classList.toggle("showBorder");
+    })
 })
