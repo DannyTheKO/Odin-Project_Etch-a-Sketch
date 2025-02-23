@@ -50,8 +50,7 @@ hr {
     justify-content: center;
     align-items: start;
 
-    gap: 32px;
-
+    user-select: none;
 
     .wrapper-btn {
         display: flex;
@@ -119,9 +118,7 @@ hr {
                     padding: 6px 16px;
                 }
 
-                #btnToggleBorder {
-                    width: 200px;
-
+                .config {
                     border: 4px outset darkslategrey;
                     background-color: darkslategrey;
                     color: lightblue;

@@ -48,8 +48,12 @@ function renderSketch(totalSquare) {
             square.style.height = `${sizeSquare}px`;
             square.style.boxSizing = "border-box";
             square.style.backgroundColor = "darkgreen";
-            // square.style.outline = "0.1px solid gray";
             square.style.opacity = "1";
+
+            // Border
+            if (btnToggleBorder.checked) {
+                square.classList.toggle("showBorder");
+            }
 
             etchASketch.appendChild(square);
         }
@@ -138,7 +142,7 @@ totalSquareOutput.addEventListener('click', (e) => {
 })
 
 btnToggleBorder.addEventListener('click', (e) => {
-    let allSquares = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > *");
+    let allSquares = document.querySelectorAll(".wrapper > .wrapper-canvas > #etchASketch > #square");
     allSquares.forEach(square => {
         square.classList.toggle("showBorder");
     })
